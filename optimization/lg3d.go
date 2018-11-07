@@ -20,9 +20,10 @@ const (
 
 type (
 	EngineParam struct {
-		EngineType int     `json:"engine"`
-		DimacsPath string  `json:"dimacs_path"`
-		Precision  float64 `json:"precision"`
+		EngineType  int     `json:"engine"`
+		Precision   float64 `json:"precision"`
+		LowestLabel bool    `json:"lowest_label"`
+		FifoBuckets bool    `json:"fifo_buckets"`
 	}
 
 	UltpitEngine interface {
@@ -66,7 +67,7 @@ func getEngine(param *EngineParam) (UltpitEngine, error) {
 	case Engine_LERCHSGROSSMANN:
 		return new(LG3D), nil
 	case Engine_DIMACSPROGRAM:
-		return newDimacsEngine(param)
+		return newDimacsEngine(param), nil
 	default:
 		return nil, fmt.Errorf("Invalid engine type")
 	}
